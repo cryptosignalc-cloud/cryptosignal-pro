@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRYPTOSIGNAL PRO v5 BETA — Read-only Technical Analysis Terminal for Binance</title>
+<meta name="description" content="Windows desktop terminal scanning 20+ Binance pairs in real time. ADX, RSI, MACD, Volume Profile POC. No API keys, no account access. 150 hours free, then $10/month.">
+
+<meta property="og:title" content="CryptoSignal PRO — Binance Technical Analysis Terminal">
+<meta property="og:description" content="Scan 20+ Binance pairs with ADX, RSI, MACD, Volume Profile. No API keys required. 150 hours free trial.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cryptosignalc-cloud.github.io/cryptosignal-pro/">
+
+<!-- Google Search Console verification — paste your tag between the quotes, then uncomment -->
+<!-- <meta name="google-site-verification" content="PASTE_CODE_HERE"> -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0a0e17;
+  --bg-elev: #0f141f;
+  --bg-card: #121826;
+  --border: #1e2738;
+  --border-hot: #2a3550;
+  --text: #e8ecf4;
+  --text-dim: #8a94a8;
+  --text-faded: #5a6478;
+  --green: #00ff94;
+  --green-dim: #00b86b;
+  --red: #ff3b5c;
+  --yellow: #ffb627;
+  --cyan: #00d9ff;
+  --purple: #b47dff;
+  --magenta: #ff3ba8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(0, 217, 255, 0.06), transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(180, 125, 255, 0.05), transparent 50%);
+  background-attachment: fixed;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,255,148,0.015) 3px 4px);
+  pointer-events: none;
+  z-index: 100;
+}
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+/* ==== NAV ==== */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(10, 14, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1280px; margin: 0 auto; padding: 16px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px;
+  letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px;
+}
+.logo-dot {
+  width: 8px; height: 8px; background: var(--green); border-radius: 50%;
+  box-shadow: 0 0 12px var(--green); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+.logo .pro { color: var(--cyan); font-weight: 700; margin-left: 4px; }
+
+.nav-links { display: flex; gap: 28px; align-items: center; font-size: 13px; color: var(--text-dim); }
+.nav-links a { color: var(--text-dim); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  padding: 8px 18px; background: var(--green); color: #000 !important;
+  border-radius: 4px; font-weight: 700; font-size: 12px;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.nav-cta:hover { background: #fff; }
+@media (max-width: 720px) { .nav-links a:not(.nav-cta) { display: none; } }
+
+/* ==== HERO ==== */
+.hero { padding: 80px 0 60px; position: relative; }
+.hero-meta {
+  display: flex; gap: 8px; align-items: center; margin-bottom: 32px;
+  font-size: 11px; color: var(--text-faded);
+  letter-spacing: 0.08em; text-transform: uppercase; flex-wrap: wrap;
+}
+.meta-tag { padding: 4px 10px; border: 1px solid var(--border); border-radius: 3px; }
+.meta-tag.beta { color: var(--yellow); border-color: rgba(255,182,39,0.3); }
+.meta-tag.live {
+  color: var(--green); border-color: rgba(0,255,148,0.3);
+  display: flex; align-items: center; gap: 6px;
+}
+.meta-tag.live::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite;
+}
+
+h1 {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(44px, 7vw, 88px); line-height: 0.95;
+  letter-spacing: -0.035em; margin-bottom: 28px;
+}
+h1 .accent {
+  background: linear-gradient(90deg, var(--green) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+h1 .mono {
+  font-family: 'JetBrains Mono', monospace; font-weight: 500;
+  font-size: 0.4em; color: var(--text-dim);
+  display: block; letter-spacing: 0; margin-top: 16px;
+}
+
+.hero-lede {
+  font-size: clamp(16px, 1.6vw, 19px); color: var(--text-dim);
+  max-width: 620px; margin-bottom: 40px; line-height: 1.65;
+}
+.hero-lede strong { color: var(--text); font-weight: 500; }
+
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 28px; font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; text-decoration: none;
+  border-radius: 4px; transition: all 0.2s; cursor: pointer;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--green); color: #000;
+  box-shadow: 0 0 32px rgba(0,255,148,0.2);
+}
+.btn-primary:hover { background: #fff; box-shadow: 0 0 48px rgba(0,255,148,0.4); transform: translateY(-2px); }
+.btn-secondary { background: transparent; color: var(--text); border-color: var(--border-hot); }
+.btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.hero-note {
+  margin-top: 20px; font-size: 12px; color: var(--text-faded);
+  display: flex; align-items: center; gap: 8px;
+}
+.hero-note::before { content: '—'; color: var(--green); }
+
+/* ==== TICKER ==== */
+.ticker-wrap {
+  margin: 60px 0 40px; padding: 14px 0;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: var(--bg-elev); overflow: hidden;
+}
+.ticker {
+  display: flex; gap: 48px; white-space: nowrap;
+  animation: scroll 40s linear infinite;
+}
+@keyframes scroll { to { transform: translateX(-50%); } }
+.ticker-item {
+  font-size: 12px; color: var(--text-dim); letter-spacing: 0.05em;
+  display: flex; gap: 10px; align-items: center;
+}
+.ticker-item .sym { color: var(--text); font-weight: 700; }
+.ticker-item .up { color: var(--green); }
+.ticker-item .down { color: var(--red); }
+
+/* ==== SCREENSHOT ==== */
+.screenshot-section { padding: 20px 0 100px; }
+.screenshot-frame {
+  border: 1px solid var(--border-hot); border-radius: 8px;
+  overflow: hidden; background: var(--bg-elev);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 80px rgba(0,217,255,0.08);
+  position: relative;
+}
+.screenshot-frame::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(10,14,23,0.05));
+  pointer-events: none; z-index: 1;
+}
+.screenshot-topbar {
+  background: #0a0e17; padding: 10px 16px;
+  display: flex; gap: 6px; align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.screenshot-topbar .dot { width: 10px; height: 10px; border-radius: 50%; }
+.screenshot-topbar .dot.r { background: #ff5f56; }
+.screenshot-topbar .dot.y { background: #ffbd2e; }
+.screenshot-topbar .dot.g { background: #27c93f; }
+.screenshot-topbar .file {
+  margin-left: 16px; font-size: 11px; color: var(--text-faded);
+  letter-spacing: 0.05em;
+}
+.screenshot-img {
+  width: 100%; display: block;
+  background: #121826;
+}
+.screenshot-placeholder {
+  width: 100%; aspect-ratio: 16/9; background: var(--bg-card);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px; color: var(--text-faded);
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 40px;
+}
+
+/* ==== SECTIONS ==== */
+section { padding: 80px 0; }
+.section-label {
+  font-size: 11px; color: var(--cyan);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+}
+.section-label::before {
+  content: ''; width: 24px; height: 1px; background: var(--cyan);
+}
+h2 {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: clamp(32px, 4vw, 52px); line-height: 1.05;
+  letter-spacing: -0.025em; margin-bottom: 24px;
+  max-width: 720px;
+}
+.section-lede {
+  color: var(--text-dim); max-width: 620px;
+  font-size: 16px; margin-bottom: 56px;
+}
+
+/* ==== CAPABILITIES GRID ==== */
+.cap-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+}
+.cap-card {
+  background: var(--bg-elev); padding: 32px; transition: background .2s;
+}
+.cap-card:hover { background: var(--bg-card); }
+.cap-card .num {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--text-faded); letter-spacing: 0.1em; margin-bottom: 20px;
+}
+.cap-card h3 {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 22px; margin-bottom: 12px; letter-spacing: -0.01em;
+}
+.cap-card p { color: var(--text-dim); font-size: 14px; line-height: 1.6; }
+.cap-card .tags {
+  margin-top: 20px; display: flex; gap: 6px; flex-wrap: wrap;
+}
+.cap-card .tag {
+  font-size: 10px; padding: 3px 8px; border: 1px solid var(--border);
+  color: var(--text-faded); letter-spacing: 0.05em; border-radius: 2px;
+}
+
+/* ==== DOES / DOES NOT ==== */
+.dual-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  margin-top: 20px;
+}
+@media (max-width: 720px) { .dual-grid { grid-template-columns: 1fr; } }
+
+.dual-card {
+  padding: 32px; border: 1px solid var(--border); border-radius: 4px;
+  background: var(--bg-elev);
+}
+.dual-card.does { border-left: 3px solid var(--green); }
+.dual-card.does-not { border-left: 3px solid var(--red); }
+.dual-card h4 {
+  font-size: 12px; letter-spacing: 0.15em;
+  text-transform: uppercase; margin-bottom: 20px;
+}
+.dual-card.does h4 { color: var(--green); }
+.dual-card.does-not h4 { color: var(--red); }
+.dual-card ul { list-style: none; }
+.dual-card li {
+  padding: 10px 0; color: var(--text-dim); font-size: 14px;
+  border-bottom: 1px dashed var(--border); display: flex; gap: 12px;
+}
+.dual-card li:last-child { border-bottom: none; }
+.dual-card li::before {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700; flex-shrink: 0;
+}
+.dual-card.does li::before { content: '✓'; color: var(--green); }
+.dual-card.does-not li::before { content: '✗'; color: var(--red); }
+
+/* ==== PRICING ==== */
+.pricing-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  max-width: 880px;
+}
+@media (max-width: 720px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+.plan {
+  background: var(--bg-elev); border: 1px solid var(--border);
+  border-radius: 6px; padding: 40px; position: relative;
+}
+.plan.featured {
+  border-color: var(--green);
+  box-shadow: 0 0 40px rgba(0,255,148,0.08);
+}
+.plan.featured::before {
+  content: 'RECOMMENDED'; position: absolute; top: -10px; right: 24px;
+  background: var(--green); color: #000;
+  padding: 4px 10px; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; border-radius: 2px;
+}
+.plan-name {
+  font-size: 11px; color: var(--text-faded);
+  letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px;
+}
+.plan-price {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 48px; letter-spacing: -0.03em; margin-bottom: 4px;
+}
+.plan-price .cur { color: var(--text-dim); font-size: 0.5em; vertical-align: top; }
+.plan-price .per { color: var(--text-dim); font-size: 0.35em; font-weight: 500; }
+.plan-desc { color: var(--text-dim); font-size: 13px; margin-bottom: 32px; min-height: 40px; }
+.plan ul { list-style: none; margin-bottom: 32px; }
+.plan li {
+  padding: 8px 0; font-size: 14px; color: var(--text);
+  display: flex; gap: 10px;
+}
+.plan li::before { content: '·'; color: var(--green); font-weight: 700; }
+
+/* ==== SECURITY BLOCK ==== */
+.security-block {
+  background: var(--bg-elev); border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan); border-radius: 4px;
+  padding: 40px; margin-top: 40px;
+}
+.security-block h3 {
+  font-family: 'Syne', sans-serif; font-size: 24px;
+  margin-bottom: 16px; font-weight: 700;
+}
+.security-block p { color: var(--text-dim); margin-bottom: 20px; }
+.security-block .key {
+  display: inline-block; padding: 3px 8px; background: var(--bg-card);
+  border-radius: 3px; font-size: 13px; color: var(--cyan);
+  border: 1px solid var(--border);
+}
+
+/* ==== FAQ ==== */
+.faq-item {
+  border-bottom: 1px solid var(--border); padding: 24px 0;
+}
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-q {
+  font-family: 'Syne', sans-serif; font-weight: 600;
+  font-size: 18px; margin-bottom: 12px;
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.faq-q::before {
+  content: counter(faq-counter, decimal-leading-zero);
+  counter-increment: faq-counter;
+  color: var(--cyan); font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.05em;
+  margin-top: 6px; flex-shrink: 0;
+}
+.faq-a { color: var(--text-dim); padding-left: 44px; font-size: 14px; }
+.faq-list { counter-reset: faq-counter; }
+
+/* ==== DISCLAIMER ==== */
+.disclaimer-block {
+  background: rgba(255,59,92,0.04);
+  border: 1px solid rgba(255,59,92,0.2);
+  border-left: 3px solid var(--red);
+  padding: 32px; border-radius: 4px; margin-top: 40px;
+}
+.disclaimer-block h4 {
+  color: var(--red); font-size: 12px;
+  letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.disclaimer-block h4::before { content: '⚠'; font-size: 14px; }
+.disclaimer-block p { color: var(--text-dim); font-size: 13px; margin-bottom: 12px; line-height: 1.7; }
+.disclaimer-block strong { color: var(--text); }
+
+/* ==== FOOTER ==== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 60px 0 40px; margin-top: 80px;
+}
+.footer-inner {
+  display: flex; justify-content: space-between; gap: 40px;
+  flex-wrap: wrap;
+}
+.footer-brand { max-width: 360px; }
+.footer-brand p { color: var(--text-faded); font-size: 13px; margin-top: 16px; }
+.footer-links { display: flex; gap: 48px; flex-wrap: wrap; }
+.footer-col h5 {
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-faded); margin-bottom: 16px;
+}
+.footer-col a {
+  display: block; color: var(--text-dim); text-decoration: none;
+  font-size: 13px; padding: 4px 0; transition: color .2s;
+}
+.footer-col a:hover { color: var(--cyan); }
+.footer-bottom {
+  margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-faded); font-size: 12px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+
+/* fade-in on scroll */
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      CRYPTOSIGNAL<span class="pro">PRO</span>
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#security">Security</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip" class="nav-cta">Download</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-meta fade-in">
+      <span class="meta-tag live">Public Beta · v5.5.0</span>
+      <span class="meta-tag beta">Windows 10/11</span>
+      <span class="meta-tag">🇨🇿 Built in Czechia</span>
+    </div>
+
+    <h1 class="fade-in">
+      Read the market,<br>
+      not your <span class="accent">account.</span>
+      <span class="mono">// technical analysis terminal for binance · spot + futures</span>
+    </h1>
+
+    <p class="hero-lede fade-in">
+      CryptoSignal PRO scans <strong>20+ Binance pairs in real time</strong> and produces a scored watchlist from ADX, RSI, MACD, Volume Profile and funding-rate data. It uses only <strong>public market endpoints</strong>. No API keys. No login. No access to your funds — ever.
+    </p>
+
+    <div class="hero-actions fade-in">
+      <a href="https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip" class="btn btn-primary">
+        ↓ Download v5.5.0
+      </a>
+      <a href="#features" class="btn btn-secondary">See what it does</a>
+    </div>
+
+    <div class="hero-note fade-in">
+      150 hours free · $10/month after · cancel anytime
+    </div>
+  </div>
+</header>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item"><span class="sym">BTC/USDT</span> $78,276 <span class="up">+0.70%</span></span>
+    <span class="ticker-item"><span class="sym">ETH/USDT</span> $2,325.25 <span class="down">−0.06%</span></span>
+    <span class="ticker-item"><span class="sym">BNB/USDT</span> $638.56 <span class="up">+0.44%</span></span>
+    <span class="ticker-item"><span class="sym">SOL/USDT</span> $86.33 <span class="up">+0.28%</span></span>
+    <span class="ticker-item"><span class="sym">XRP/USDT</span> $1.4347 <span class="up">+1.33%</span></span>
+    <span class="ticker-item"><span class="sym">DOGE/USDT</span> $0.0979 <span class="up">+1.74%</span></span>
+    <span class="ticker-item"><span class="sym">ADA/USDT</span> $0.2505 <span class="up">+1.21%</span></span>
+    <span class="ticker-item"><span class="sym">AVAX/USDT</span> $9.41 <span class="up">+1.40%</span></span>
+    <span class="ticker-item"><span class="sym">LINK/USDT</span> $9.35 <span class="up">+0.86%</span></span>
+    <span class="ticker-item"><span class="sym">DOT/USDT</span> $1.2530 <span class="up">+0.96%</span></span>
+    <!-- duplicate for seamless scroll -->
+    <span class="ticker-item"><span class="sym">BTC/USDT</span> $78,276 <span class="up">+0.70%</span></span>
+    <span class="ticker-item"><span class="sym">ETH/USDT</span> $2,325.25 <span class="down">−0.06%</span></span>
+    <span class="ticker-item"><span class="sym">BNB/USDT</span> $638.56 <span class="up">+0.44%</span></span>
+    <span class="ticker-item"><span class="sym">SOL/USDT</span> $86.33 <span class="up">+0.28%</span></span>
+    <span class="ticker-item"><span class="sym">XRP/USDT</span> $1.4347 <span class="up">+1.33%</span></span>
+  </div>
+</div>
+
+<section class="screenshot-section">
+  <div class="container fade-in">
+    <div class="screenshot-frame">
+      <div class="screenshot-topbar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="file">CryptoSignal PRO v5.5.0 — main dashboard</span>
+      </div>
+      <img class="screenshot-img" src="screenshots/main-dashboard.png" alt="CryptoSignal PRO dashboard" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="screenshot-placeholder" style="display:none;">
+        <div>// add your screenshot to screenshots/main-dashboard.png</div>
+        <div>1280 × 720 recommended</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <div class="section-label fade-in">01 · Capabilities</div>
+    <h2 class="fade-in">Every indicator that matters,<br>in one terminal view.</h2>
+    <p class="section-lede fade-in">Classical indicators plus market microstructure — weighted into a single confluence score per pair. Conflicts are flagged, not hidden.</p>
+
+    <div class="cap-grid fade-in">
+      <div class="cap-card">
+        <div class="num">001 / TECHNICALS</div>
+        <h3>Multi-indicator signals</h3>
+        <p>ADX for trend regime. RSI for overbought/oversold. MACD for signal crosses and divergences. Volume Profile POC for session context. ZigZag for swing detection.</p>
+        <div class="tags"><span class="tag">ADX</span><span class="tag">RSI</span><span class="tag">MACD</span><span class="tag">POC</span><span class="tag">ZigZag</span></div>
+      </div>
+      <div class="cap-card">
+        <div class="num">002 / SCORING</div>
+        <h3>Confluence engine</h3>
+        <p>8-point checklist per pair, weighted −10 to +10. Calibrated via walk-forward optimization on 90-day history. Displayed win rate is a backtest number, not live performance.</p>
+        <div class="tags"><span class="tag">8-point</span><span class="tag">ML-calibrated</span><span class="tag">90d backtest</span></div>
+      </div>
+      <div class="cap-card">
+        <div class="num">003 / MICROSTRUCTURE</div>
+        <h3>Funding &amp; open interest</h3>
+        <p>7-day funding rate history. Open interest snapshots. Fear &amp; Greed index. Economic calendar for high-impact events only — FOMC, CPI, NFP.</p>
+        <div class="tags"><span class="tag">Funding</span><span class="tag">OI</span><span class="tag">F&amp;G</span><span class="tag">Econ</span></div>
+      </div>
+      <div class="cap-card">
+        <div class="num">004 / FILTERS</div>
+        <h3>Context that matters</h3>
+        <p>Filter by liquidity tier, session (Asia/EU/US), trend regime, or score. BTC correlation per pair. Conflict flags when indicators disagree.</p>
+        <div class="tags"><span class="tag">Sessions</span><span class="tag">Liquidity</span><span class="tag">Correlation</span></div>
+      </div>
+      <div class="cap-card">
+        <div class="num">005 / RED ZONE</div>
+        <h3>Volatility warnings</h3>
+        <p>Automatic warnings before CME futures expiry, FOMC meetings, and major releases. The terminal recommends pausing auto-trading during high-impact windows.</p>
+        <div class="tags"><span class="tag">CME</span><span class="tag">FOMC</span><span class="tag">CPI</span></div>
+      </div>
+      <div class="cap-card">
+        <div class="num">006 / JOURNAL</div>
+        <h3>Trading journal</h3>
+        <p>Manual trade logging with entry/exit/stop/target. P&amp;L and win-rate on your own entries. CSV and JSON export. Stored locally — never uploaded.</p>
+        <div class="tags"><span class="tag">Manual</span><span class="tag">CSV/JSON</span><span class="tag">Local only</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="security">
+  <div class="container">
+    <div class="section-label fade-in">02 · Security model</div>
+    <h2 class="fade-in">Zero-permission by design.</h2>
+    <p class="section-lede fade-in">The most common question about a new trading tool is: <em>what can it do to my account?</em> The answer here is <strong>nothing</strong> — because it never has access in the first place.</p>
+
+    <div class="dual-grid fade-in">
+      <div class="dual-card does">
+        <h4>✓ What it does</h4>
+        <ul>
+          <li>Reads public Binance market data — same as binance.com without login</li>
+          <li>Scans Spot + Futures pairs every few seconds</li>
+          <li>Stores your trading journal locally on your machine only</li>
+          <li>Sends anonymous machine ID + subscription status to license server</li>
+        </ul>
+      </div>
+      <div class="dual-card does-not">
+        <h4>✗ What it cannot do</h4>
+        <ul>
+          <li>See your Binance balance or positions</li>
+          <li>Place, modify, or cancel trades on any exchange</li>
+          <li>Withdraw funds — no API keys exist in the system</li>
+          <li>Identify you on Binance — there is no account link</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="security-block fade-in">
+      <h3>Network activity, in full</h3>
+      <p>Outbound connections only to: <span class="key">api.binance.com</span> <span class="key">fapi.binance.com</span> <span class="key">alternative.me</span> and the license endpoint. No user behaviour telemetry. No trade data leaves your machine.</p>
+      <p style="font-size: 13px; color: var(--text-faded); margin-top: 20px;">The v5.5.0 beta is <strong style="color: var(--yellow);">not yet code-signed</strong>. Windows SmartScreen will warn on first launch. A Sectigo certificate is planned for v5.6. If you prefer not to run unsigned binaries — wait for the signed release.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="container">
+    <div class="section-label fade-in">03 · Pricing</div>
+    <h2 class="fade-in">Try it for 150 hours.<br>Subscribe if it earns its place.</h2>
+    <p class="section-lede fade-in">No credit card for the trial. Full feature access during those 150 hours. After that, a limited view stays free forever or upgrade to PRO for unlimited use.</p>
+
+    <div class="pricing-grid fade-in">
+      <div class="plan">
+        <div class="plan-name">Trial</div>
+        <div class="plan-price">Free<span class="per"> · 150 hrs</span></div>
+        <p class="plan-desc">Full feature access. No sign-up required. No credit card.</p>
+        <ul>
+          <li>All 20+ pairs scanned</li>
+          <li>Every filter and indicator</li>
+          <li>Full trading journal</li>
+          <li>150 hours of active use</li>
+        </ul>
+        <a href="https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip" class="btn btn-secondary" style="width: 100%; justify-content: center;">↓ Download trial</a>
+      </div>
+      <div class="plan featured">
+        <div class="plan-name">PRO</div>
+        <div class="plan-price"><span class="cur">$</span>10<span class="per"> / month</span></div>
+        <p class="plan-desc">Unlimited use. Priority support. Early access to v5.6+ features. Cancel anytime.</p>
+        <ul>
+          <li>Everything in Trial</li>
+          <li>Unlimited hours</li>
+          <li>Priority email support</li>
+          <li>Beta access to new exchanges (Bybit, OKX)</li>
+          <li>Grandfathered pricing when beta ends</li>
+        </ul>
+        <a href="https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip" class="btn btn-primary" style="width: 100%; justify-content: center;">Start trial → upgrade later</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="section-label fade-in">04 · Questions you should ask</div>
+    <h2 class="fade-in">The honest answers.</h2>
+    <p class="section-lede fade-in">Before installing any unknown executable that touches a crypto exchange, you should ask these questions about every tool. Here are the answers for this one.</p>
+
+    <div class="faq-list fade-in">
+      <div class="faq-item">
+        <div class="faq-q">Does this place trades for me?</div>
+        <div class="faq-a">No. CryptoSignal PRO is read-only. It displays signals; you place trades yourself on the exchange of your choice.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do I need a Binance API key?</div>
+        <div class="faq-a">No. The app uses public Binance endpoints only — the same data visible on binance.com without logging in.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens after my 150 free hours?</div>
+        <div class="faq-a">The app switches to a limited view (top 3 pairs, no filters). You can subscribe to PRO to restore full access, or keep using the limited view for free.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Are the "win rate" numbers real trading results?</div>
+        <div class="faq-a"><strong style="color: var(--yellow);">No.</strong> They are results from 90-day backtests on historical data. Past performance does not predict future results. There is no live, audited trading track record. Treat the scoring as a filtering aid, not a prediction.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Why does Windows warn when I run the installer?</div>
+        <div class="faq-a">The beta isn't code-signed yet. A Sectigo certificate is planned for v5.6. Until then, SmartScreen will warn — this is normal for unsigned software. Click "More info → Run anyway", or wait for the signed release if you prefer.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is the source code available?</div>
+        <div class="faq-a">Currently closed-source. The GUI and indicator layers are planned to be open-sourced in v5.7 while the calibration engine remains proprietary.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Which exchanges are supported?</div>
+        <div class="faq-a">Binance Spot and Futures in v5. Bybit and OKX are on the roadmap (v5.6 and v5.7).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I cancel my subscription anytime?</div>
+        <div class="faq-a">Yes. Cancel from your account page — access continues until the end of the paid period.</div>
+      </div>
+    </div>
+
+    <div class="disclaimer-block fade-in">
+      <h4>Risk Disclaimer</h4>
+      <p><strong>This software is an analysis tool, not financial advice.</strong> Cryptocurrency trading involves substantial risk, including extreme volatility, possible total loss of invested capital, leverage amplification, and exchange/counterparty risks.</p>
+      <p>No indicator, including any produced by this software, predicts the future. Technical analysis describes probabilities, not certainties. Backtest results shown in the application are historical simulations — <strong>not a promise of future performance</strong>.</p>
+      <p><strong>Invest only what you can afford to lose. Do your own research. Consider consulting a licensed financial advisor.</strong> The software is provided "AS IS" without warranty of any kind.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-dot"></span>
+          CRYPTOSIGNAL<span class="pro">PRO</span>
+        </div>
+        <p>Read-only technical analysis terminal for Binance markets. Built in the Czech Republic for the global trading community.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5>Product</h5>
+          <a href="https://github.com/cryptosignalc-cloud/cryptosignal-pro/raw/main/CryptoSignal_PRO_v5.5.0.zip">Download</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="https://github.com/cryptosignalc-cloud/cryptosignal-pro/blob/main/CHANGELOG.md">Changelog</a>
+        </div>
+        <div class="footer-col">
+          <h5>Resources</h5>
+          <a href="https://github.com/cryptosignalc-cloud/cryptosignal-pro">GitHub</a>
+          <a href="https://github.com/cryptosignalc-cloud/cryptosignal-pro/issues">Report a bug</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <a href="mailto:cryptosignalc@gmail.com">cryptosignalc@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2024–2026 CryptoSignal PRO · 🇨🇿 Czech Republic · 🇪🇺 EU</div>
+      <div>Not financial advice · Trade at your own risk</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
