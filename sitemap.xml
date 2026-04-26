@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Main landing page -->
+  <url>
+    <loc>https://cryptosignalc-cloud.github.io/cryptosignal-pro/</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://cryptosignalc-cloud.github.io/cryptosignal-pro/screenshots/main-dashboard.png</image:loc>
+      <image:title>CryptoSignal PRO Dashboard</image:title>
+      <image:caption>Read-only technical analysis terminal scanning 20+ Binance pairs with ADX, RSI, MACD, and Volume Profile indicators</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Section anchors (Google indexes them as separate landing points) -->
+  <url>
+    <loc>https://cryptosignalc-cloud.github.io/cryptosignal-pro/#features</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://cryptosignalc-cloud.github.io/cryptosignal-pro/#security</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://cryptosignalc-cloud.github.io/cryptosignal-pro/#pricing</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://cryptosignalc-cloud.github.io/cryptosignal-pro/#faq</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- GitHub repository as auxiliary entry point -->
+  <url>
+    <loc>https://github.com/cryptosignalc-cloud/cryptosignal-pro</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>
