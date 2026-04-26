@@ -1,0 +1,27 @@
+# robots.txt for CryptoSignal PRO
+# https://cryptosignalc-cloud.github.io/cryptosignal-pro/
+
+# Allow all well-behaved crawlers full access
+User-agent: *
+Allow: /
+Crawl-delay: 1
+
+# Block known bad/AI-scraper bots that ignore robots.txt anyway,
+# but every little signal helps with hosting bandwidth and analytics noise
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://cryptosignalc-cloud.github.io/cryptosignal-pro/sitemap.xml
